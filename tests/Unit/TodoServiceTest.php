@@ -30,4 +30,12 @@ class TodoServiceTest extends TestCase
         $this->assertCount(10, $todos->items());
         $this->assertEquals(50, $todos->total());
     }
+
+    public function test_it_can_update_a_todo_status_to_done(): void
+    {
+        $todo = Todo::factory()->create(['status' => 'pending']);
+        $this->todoService->updateStatus($todo->id, 'done');
+
+        $this->assertEquals('done', $todo->fresh()->status);
+    }
 }
