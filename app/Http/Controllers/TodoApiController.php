@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\TodoResource;
+use App\Http\Requests\UpdateTodoStatusRequest;
 use App\Models\Todo;
 use App\Services\TodoService;
 use Illuminate\Http\Request;
@@ -23,5 +24,18 @@ class TodoApiController extends Controller
 
         $todos = $this->todoService->getAllPaginated($page, $perPage); 
         return TodoResource::collection($todos);
+    }
+
+    public function update($id, UpdateTodoStatusRequest $request)
+    {
+        $validatedData = $request->validated();
+
+        $todo = $this->todoService->updateStatus($id, $validatedData['status']);
+
+        if (!$todo) {
+            return response()->json(['error' => 'Todo not found'], 404);
+        }
+
+        return new TodoResource($todo);
     }
 }
