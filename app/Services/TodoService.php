@@ -20,4 +20,15 @@ class TodoService
             $todo->save();
         }
     }
+
+    public function updateAllStatusesInChunks($status, $chunkSize = 200)
+    {
+        Todo::where('status', '!=', $status)
+            ->chunkById($chunkSize, function ($todos) use ($status) {
+                foreach ($todos as $todo) {
+                    $todo->status = $status;
+                    $todo->save();
+                }
+            });
+    }
 }
