@@ -11,4 +11,13 @@ class TodoService
     {
         return Todo::paginate($perPage);
     }
+
+    public function updateStatus($id, $status)
+    {
+        $todo = Todo::find($id);
+        if ($todo) {
+            $todo->status = $status;
+            $todo->save();
+        }
+    }
 }
