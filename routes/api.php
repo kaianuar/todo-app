@@ -21,4 +21,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::prefix('v1')->group(function () {
     Route::get('/todos', [TodoApiController::class, 'index']);
+    Route::patch('/todos/{id}', [TodoApiController::class, 'update']);
 });
