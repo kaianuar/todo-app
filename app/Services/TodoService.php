@@ -7,9 +7,9 @@ use Illuminate\Pagination\LengthAwarePaginator;
 
 class TodoService
 {
-    public function getAllPaginated(int $perPage): LengthAwarePaginator
+    public function getAllPaginated(int $page = 1, int $perPage = 25): LengthAwarePaginator
     {
-        return Todo::paginate($perPage);
+        return Todo::paginate($perPage, ['*'], 'page', $page);
     }
 
     public function updateStatus($id, $status)

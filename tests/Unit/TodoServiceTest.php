@@ -26,10 +26,13 @@ class TodoServiceTest extends TestCase
     {
         Todo::factory()->count(50)->create();
 
-        $todos = $this->todoService->getAllPaginated(10);
-
-        $this->assertCount(10, $todos->items());
-        $this->assertEquals(50, $todos->total());
+        $page = 2;
+        $perPage = 10;
+        $todos = $this->todoService->getAllPaginated($page, $perPage);
+    
+        $this->assertCount(10, $todos->items()); // 10 items per page
+        $this->assertEquals(2, $todos->currentPage()); // We are on the second page
+        $this->assertEquals(50, $todos->total()); // Total of 50 Todo items
     }
 
     public function test_it_can_update_a_todo_status_to_done(): void
