@@ -18,7 +18,9 @@ class TodoService
         if ($todo) {
             $todo->status = $status;
             $todo->save();
+            return $todo;
         }
+        return null;
     }
 
     public function updateAllStatusesInChunks($status, $chunkSize = 200)
