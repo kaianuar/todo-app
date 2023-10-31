@@ -21,7 +21,33 @@ class TodoApiTest extends TestCase
         $response = $this->getJson('/api/v1/todos?page=1&perPage=10');
 
         $response->assertStatus(200)
-                 ->assertJsonCount(10, 'data')
-                 ->assertJsonPath('meta.total', 50);
+                ->assertJsonStructure([
+                    'data' => [
+                        '*' => [
+                            'id',
+                            'title',
+                            'description',
+                            'status'
+                        ]
+                    ],
+                    'links' => [
+                        'first',
+                        'last',
+                        'prev',
+                        'next'
+                    ],
+                    'meta' => [
+                        'current_page',
+                        'from',
+                        'last_page',
+                        'links',
+                        'path',
+                        'per_page',
+                        'to',
+                        'total'
+                    ]
+                ])
+                ->assertJsonCount(10, 'data')
+                ->assertJsonPath('meta.total', 50);
     }
 }
